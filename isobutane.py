@@ -23,7 +23,6 @@ def isobutane_alpha():
             print("isobutane-alpha appears to work correctly :D")
             break
         counter += 1
-        socket.socket.
 
 def isobutane_beta():
     # If a client quits before it receives a welcoming message,
