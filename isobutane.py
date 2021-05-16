@@ -1,10 +1,26 @@
 import socket
 from time import sleep
+import sys
 
+arguments = sys.argv[1:]
+method = ""
+quiet = False
 
-server = "192.168.1.56"
+if len(arguments) == 0:
+    print("isobutane: usage: isobutane server [--method ...] [-q]")
+    exit()
+
+server = arguments[0]
+
+if "--method" in arguments:
+    method = arguments[arguments.index("--method")+1]
+
+if "-q" or "--quiet" in arguments:
+    quiet = True
+
 print("isobutane starting")
-i = input("choose method: (alpha/beta/gamma) ")
+if not method:
+    method = input("choose method: (alpha/beta/gamma) ")
 
 def isobutane_alpha():
     # The player count is not limited in code so we can exploit that,
@@ -17,7 +33,8 @@ def isobutane_alpha():
         s = socket.socket()
         try:
             s.connect((server, 1234))
-            s.send(("isobutane"+str(counter)+'\n').encode())
+            if not quiet:
+                s.send(("isobutane"+str(counter)+'\n').encode())
             sockets.append(s)
         except:
             print("isobutane-alpha appears to work correctly :D")
@@ -49,7 +66,8 @@ def isobutane_gamma():
         s = socket.socket()
         try:
             s.connect((server, 1234))
-            s.send(("isobutane"+str(counter)+'\n').encode())
+            if not quiet:
+                s.send(("isobutane"+str(counter)+'\n').encode())
             sockets.append(s)
         except:
             print("isobutane-alpha appears to work correctly :D")
@@ -57,11 +75,11 @@ def isobutane_gamma():
     sleep(1)
 
 
-if i == "alpha":
+if method == "alpha":
     isobutane_alpha()
-elif i == "beta":
+elif method == "beta":
     isobutane_beta()
-elif i == "gamma":
+elif method == "gamma":
     isobutane_gamma()
 
 sleep(0.5)
